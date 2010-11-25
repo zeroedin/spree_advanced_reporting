@@ -1,4 +1,4 @@
-module AdvancedReporting::ReportsController
+class Admin::ReportsControllerDecorator #module AdvancedReporting::ReportsController
   def self.included(target)
     target.class_eval do
       alias :spree_index :index
@@ -91,7 +91,8 @@ module AdvancedReporting::ReportsController
 
   def revenue
     @report = AdvancedReport::IncrementReport::Revenue.new(params)
-    base_report_render("revenue")
+    render :template => "admin/reports/increment_base" 
+    #base_report_render("revenue")
   end
 
   def units

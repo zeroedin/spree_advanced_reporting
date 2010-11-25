@@ -1,3 +1,5 @@
+require 'searchlogic'
+ 
 class AdvancedReport
   attr_accessor :orders, :product_text, :date_text, :taxon_text, :ruportdata, :data, :params, :taxon, :product, :product_in_taxon
 
@@ -13,11 +15,15 @@ class AdvancedReport
     self.params = params
     self.data = {}
     self.ruportdata = {}
-    search = Order.searchlogic(params[:search])
-    search.checkout_complete = true
-    search.state_does_not_equal('canceled')
 
-    self.orders = search.find(:all)
+    #search.checkout_complete = true
+    #search.state_does_not_equal('canceled')
+    params[:search][:completed_at_not_null] ||= "1"
+    if params[:search].delete(:completed_at_not_null) == "1"
+      params[:search][:completed_at_not_null] = true
+    end
+    search = Order.searchlogic(params[:search])
+    self.orders = search.do_search 
 
     self.product_in_taxon = true
     if params[:advanced_reporting]
