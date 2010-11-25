@@ -1,23 +1,22 @@
 require 'spree_core'
 require 'advanced_reporting_hooks'
 require "ruport"
-#require "ruport-util" #, :lib => "ruport/util"
+require "ruport/util"
 
 module AdvancedReporting
   class Engine < Rails::Engine
     config.autoload_paths += %W(#{config.root}/lib)
 
     def self.activate
-      Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
-        Rails.env.production? ? require(c) : load(c)
-      end
+      #Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
+      #  Rails.env.production? ? require(c) : load(c)
+      #end
 
-      #Admin::ReportsController.send(:include, AdvancedReporting::ReportsController)
-      Admin::ReportsController::AVAILABLE_REPORTS.merge(ReportsControllerDecorator::ADVANCED_REPORTS)
+      Admin::ReportsController.send(:include, Admin::ReportsControllerDecorator)
+      Admin::ReportsController::AVAILABLE_REPORTS.merge(Admin::ReportsControllerDecorator::ADVANCED_REPORTS)
 
       # Ruport::Controller::Table.formats.merge({ :flot => MyFlotFormatter })
 
-=begin
       Ruport::Formatter::HTML.class_eval do
         # Renders individual rows for the table.
         def build_row(data = self.data)
@@ -43,7 +42,6 @@ module AdvancedReporting
           end
         end
       end
-=end
     end
 
     config.to_prepare &method(:activate).to_proc

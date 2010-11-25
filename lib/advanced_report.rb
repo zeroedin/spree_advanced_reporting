@@ -16,13 +16,21 @@ class AdvancedReport
     self.data = {}
     self.ruportdata = {}
 
-    #search.checkout_complete = true
-    #search.state_does_not_equal('canceled')
+    params[:search] ||= {}
+    #params[:search][:created_at_greater_than] = Time.zone.now.beginning_of_month
+    if !params[:search][:created_at_greater_than].blank?
+      params[:search][:created_at_greater_than] = Time.zone.parse(params[:search][:created_at_greater_than]).beginning_of_day rescue ""
+    end
+    if !params[:search][:created_at_less_than].blank?
+      params[:search][:created_at_less_than] = Time.zone.parse(params[:search][:created_at_less_than]).end_of_day rescue ""
+    end
+
     params[:search][:completed_at_not_null] ||= "1"
     if params[:search].delete(:completed_at_not_null) == "1"
       params[:search][:completed_at_not_null] = true
     end
     search = Order.searchlogic(params[:search])
+    search.state_does_not_equal('canceled')
     self.orders = search.do_search 
 
     self.product_in_taxon = true

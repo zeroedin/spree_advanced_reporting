@@ -1,11 +1,11 @@
 <h3>Advanced Reports</h3>
 <select id="report">
 <% @reports.each do |key, value| %>
-  <option <%= request.request_uri == "/admin/reports/#{key}" ? 'selected="selected" ' : '' %> value="<%= send("#{key}_admin_reports_url".to_sym) %>"><%= t(value[:name].downcase.gsub(" ","_")) %></option>
+  <option <%= request.fullpath == "/admin/reports/#{key}" ? 'selected="selected" ' : '' %> value="<%= send("#{key}_admin_reports_url".to_sym) %>"><%= t(value[:name].downcase.gsub(" ","_")) %></option>
 <% end %>
 </select>
 <div id="advanced_report_search">
-  <% form_for :search do |s| %>
+  <%= form_for :search do |s| %>
     <% if @stores -%>
       Store:<br /><%= collection_select(:search, :store_id, @stores, :id, :name, { :include_blank => 'All' } ) %><br />
     <% end -%>
@@ -20,11 +20,11 @@
     <%= t("date_range") %><br />
     <div class="yui-g date-range-filter">
       <div class="yui-u sub-field first">
-        <%= s.unobtrusive_date_text_picker :created_at_after %><br />
+        <%= s.unobtrusive_date_text_picker :created_at_greater_than %><br />
         <label class="sub"><%= t("start") %></label>
       </div>
       <div class="yui-u sub-field">
-        <%= s.unobtrusive_date_text_picker :created_at_before %><br />
+        <%= s.unobtrusive_date_text_picker :created_at_less_than %><br />
         <label><%= t("stop") %></label>
       </div>
     </div>

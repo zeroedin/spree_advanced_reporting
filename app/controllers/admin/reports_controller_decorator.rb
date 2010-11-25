@@ -1,4 +1,4 @@
-class Admin::ReportsControllerDecorator #module AdvancedReporting::ReportsController
+module Admin::ReportsControllerDecorator #module AdvancedReporting::ReportsController
   def self.included(target)
     target.class_eval do
       alias :spree_index :index
