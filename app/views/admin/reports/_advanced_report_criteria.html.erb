@@ -1,7 +1,7 @@
 <h3>Advanced Reports</h3>
 <select id="report">
 <% @reports.each do |key, value| %>
-  <option <%= request.fullpath == "/admin/reports/#{key}" ? 'selected="selected" ' : '' %> value="<%= send("#{key}_admin_reports_url".to_sym) %>"><%= t(value[:name].downcase.gsub(" ","_")) %></option>
+  <option <%= request.fullpath == "/admin/reports/#{key}" ? 'selected="selected" ' : '' %> value="<%= send("admin_reports_#{key}_url".to_sym) %>"><%= t(value[:name].downcase.gsub(" ","_")) %></option>
 <% end %>
 </select>
 <div id="advanced_report_search">

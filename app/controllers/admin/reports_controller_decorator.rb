@@ -39,10 +39,10 @@ module Admin::ReportsControllerDecorator #module AdvancedReporting::ReportsContr
     respond_to do |format|
       format.html { render :template => "admin/reports/geo_base" }
       format.pdf do
-        send_data @report.ruportdata[params[:advanced_reporting]['report_type']].to_pdf, :type =>"application/pdf", :filename => "#{filename}.pdf"
+        send_data @report.ruportdata[params[:advanced_reporting]['report_type']].to_pdf
       end
       format.csv do
-        send_data @report.ruportdata[params[:advanced_reporting]['report_type']].to_csv, :type =>"application/csv", :filename => "#{filename}.csv"
+        send_data @report.ruportdata[params[:advanced_reporting]['report_type']].to_csv
       end
     end
   end
@@ -51,10 +51,10 @@ module Admin::ReportsControllerDecorator #module AdvancedReporting::ReportsContr
     respond_to do |format|
       format.html { render :template => "admin/reports/top_base" }
       format.pdf do
-        send_data @report.ruportdata.to_pdf, :type =>"application/pdf", :filename => "#{filename}.pdf"
+        send_data @report.ruportdata.to_pdf
       end
       format.csv do
-        send_data @report.ruportdata.to_csv, :type =>"application/csv", :filename => "#{filename}.csv"
+        send_data @report.ruportdata.to_csv
       end
     end
   end
@@ -67,32 +67,24 @@ module Admin::ReportsControllerDecorator #module AdvancedReporting::ReportsContr
       format.html { render :template => "admin/reports/increment_base" }
       format.pdf do
         if params[:advanced_reporting]["report_type"] == :all
-          send_data @report.all_data.to_pdf, :type =>"application/pdf", :filename => filename + ".pdf"
+          send_data @report.all_data.to_pdf
         else 
-          send_data @report.ruportdata[params[:advanced_reporting]['report_type']].to_pdf, :type =>"application/pdf", :filename => filename + ".pdf"
+          send_data @report.ruportdata[params[:advanced_reporting]["report_type"]].to_pdf
         end 
       end
       format.csv do
         if params[:advanced_reporting]["report_type"] == :all
-          send_data @report.all_data.to_csv, :type =>"application/csv", :filename => filename + ".csv"
+          send_data @report.all_data.to_csv
         else 
-          send_data @report.ruportdata[params[:advanced_reporting]['report_type']].to_csv, :type =>"application/csv", :filename => filename + ".csv"
+          send_data @report.ruportdata[params[:advanced_reporting]['report_type']].to_csv
         end
       end
-      #format.svg do
-      #  if params[:advanced_reporting]["report_type"] == :all
-      #    send_data @report.all_data.to_svg, :type =>"application/svg", :filename => filename + ".svg"
-      #  else 
-      #    send_data @report.ruportdata[params[:advanced_reporting]['report_type']].to_svg, :type =>"application/svg", :filename => filename + ".svg"
-      #  end
-      #end
     end
   end
 
   def revenue
     @report = AdvancedReport::IncrementReport::Revenue.new(params)
-    render :template => "admin/reports/increment_base" 
-    #base_report_render("revenue")
+    base_report_render("revenue")
   end
 
   def units
