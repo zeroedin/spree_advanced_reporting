@@ -17,11 +17,14 @@ class AdvancedReport
     self.ruportdata = {}
 
     params[:search] ||= {}
-    #params[:search][:created_at_greater_than] = Time.zone.now.beginning_of_month
-    if !params[:search][:created_at_greater_than].blank?
+    if params[:search][:created_at_greater_than].blank?
+      params[:search][:created_at_greater_than] = Order.first(:order => :completed_at).completed_at.to_date.beginning_of_day
+    else
       params[:search][:created_at_greater_than] = Time.zone.parse(params[:search][:created_at_greater_than]).beginning_of_day rescue ""
     end
-    if !params[:search][:created_at_less_than].blank?
+    if params[:search][:created_at_less_than].blank?
+      params[:search][:created_at_less_than] = Order.last(:order => :completed_at).completed_at.to_date.end_of_day
+    else
       params[:search][:created_at_less_than] = Time.zone.parse(params[:search][:created_at_less_than]).end_of_day rescue ""
     end
 
@@ -66,7 +69,6 @@ class AdvancedReport
     else
       self.date_text += " All"
     end
-
   end
 
   def download_url(base, format, report_type = nil)
