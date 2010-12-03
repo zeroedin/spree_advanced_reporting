@@ -37,8 +37,8 @@
 <%= javascript_include_tag 'jquery.tablesorter.min.js', 'advanced_reporting.js' %>
 <%= stylesheet_link_tag 'advanced_reporting' %>
 <script type="text/javascript">
-var created_at_before = "<%= (params && params[:search] && params[:search][:created_at_before]) ? params[:search][:created_at_before] : '' %>";
-var created_at_after = "<%= (params && params[:search] && params[:search][:created_at_after]) ? params[:search][:created_at_after] : '' %>";
+var created_at_less_than = "<%= (@report.unfiltered_params && @report.unfiltered_params[:created_at_less_than]) ? @report.unfiltered_params[:created_at_less_than] : '' %>";
+var created_at_greater_than = "<%= (@report.unfiltered_params && @report.unfiltered_params[:created_at_greater_than]) ? @report.unfiltered_params[:created_at_greater_than] : '' %>";
 </script>
 <% end -%>
     

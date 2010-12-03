@@ -16,6 +16,7 @@ module AdvancedReporting
       Admin::ReportsController::AVAILABLE_REPORTS.merge(Admin::ReportsControllerDecorator::ADVANCED_REPORTS)
 
       # Ruport::Controller::Table.formats.merge({ :flot => MyFlotFormatter })
+      Mime::Type.register "application/pdf", :pdf
 
       Ruport::Formatter::HTML.class_eval do
         # Renders individual rows for the table.

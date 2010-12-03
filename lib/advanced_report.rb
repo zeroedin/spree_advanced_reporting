@@ -1,7 +1,7 @@
 require 'searchlogic'
  
 class AdvancedReport
-  attr_accessor :orders, :product_text, :date_text, :taxon_text, :ruportdata, :data, :params, :taxon, :product, :product_in_taxon
+  attr_accessor :orders, :product_text, :date_text, :taxon_text, :ruportdata, :data, :params, :taxon, :product, :product_in_taxon, :unfiltered_params
 
   def name
     "Base Advanced Report"
@@ -15,15 +15,20 @@ class AdvancedReport
     self.params = params
     self.data = {}
     self.ruportdata = {}
+    self.unfiltered_params = params[:search].clone
 
     params[:search] ||= {}
     if params[:search][:created_at_greater_than].blank?
-      params[:search][:created_at_greater_than] = Order.first(:order => :completed_at).completed_at.to_date.beginning_of_day
+      if Order.count > 0
+        params[:search][:created_at_greater_than] = Order.minimum(:completed_at).beginning_of_day
+      end
     else
       params[:search][:created_at_greater_than] = Time.zone.parse(params[:search][:created_at_greater_than]).beginning_of_day rescue ""
     end
     if params[:search][:created_at_less_than].blank?
-      params[:search][:created_at_less_than] = Order.last(:order => :completed_at).completed_at.to_date.end_of_day
+      if Order.count > 0
+        params[:search][:created_at_less_than] = Order.maximum(:completed_at).end_of_day
+      end
     else
       params[:search][:created_at_less_than] = Time.zone.parse(params[:search][:created_at_less_than]).end_of_day rescue ""
     end
@@ -55,14 +60,16 @@ class AdvancedReport
     if self.taxon
       self.taxon_text = "Taxon: #{self.taxon.name}<br />"
     end
+
+    # Above searchlogic date settings
     self.date_text = "Date Range:"
-    if params[:search]
-      if params[:search][:created_at_after] != '' && params[:search][:created_at_before] != ''
-        self.date_text += " From #{params[:search][:created_at_after]} to #{params[:search][:created_at_before]}"
-      elsif params[:search][:created_at_after] != ''
-        self.date_text += " After #{params[:search][:created_at_after]}"
-      elsif params[:search][:created_at_before] != ''
-        self.date_text += " Before #{params[:search][:created_at_after]}"
+    if self.unfiltered_params
+      if self.unfiltered_params[:created_at_greater_than] != '' && self.unfiltered_params[:created_at_less_than] != ''
+        self.date_text += " From #{self.unfiltered_params[:created_at_greater_than]} to #{self.unfiltered_params[:created_at_less_than]}"
+      elsif self.unfiltered_params[:created_at_greater_than] != ''
+        self.date_text += " After #{self.unfiltered_params[:created_at_greater_than]}"
+      elsif self.unfiltered_params[:created_at_less_than] != ''
+        self.date_text += " Before #{self.unfiltered_params[:created_at_less_than]}"
       else
         self.date_text += " All"
       end
