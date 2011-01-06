@@ -12,7 +12,6 @@ class AdvancedReport::IncrementReport::Revenue < AdvancedReport::IncrementReport
   end
 
   def initialize(params)
-    debugger
     super(params)
     self.total = 0
 
