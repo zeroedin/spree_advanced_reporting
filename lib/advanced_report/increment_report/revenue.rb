@@ -12,15 +12,16 @@ class AdvancedReport::IncrementReport::Revenue < AdvancedReport::IncrementReport
   end
 
   def initialize(params)
+    debugger
     super(params)
     self.total = 0
-      
+
     self.orders.each do |order|
       date = {}
       INCREMENTS.each do |type|
         date[type] = get_bucket(type, order.completed_at)
         data[type][date[type]] ||= {
-          :value => 0, 
+          :value => 0,
           :display => get_display(type, order.completed_at),
         }
       end

@@ -4,7 +4,7 @@ module Admin::ReportsControllerDecorator #module AdvancedReporting::ReportsContr
       alias :spree_index :index
       def index; advanced_reporting_index; end
       before_filter :basic_report_setup, :actions => [:profit, :revenue, :units, :top_products, :top_customers, :geo_revenue, :geo_units, :count]
-    end 
+    end
   end
 
   ADVANCED_REPORTS = {
@@ -68,14 +68,14 @@ module Admin::ReportsControllerDecorator #module AdvancedReporting::ReportsContr
       format.pdf do
         if params[:advanced_reporting]["report_type"] == :all
           send_data @report.all_data.to_pdf
-        else 
+        else
           send_data @report.ruportdata[params[:advanced_reporting]["report_type"]].to_pdf
-        end 
+        end
       end
       format.csv do
         if params[:advanced_reporting]["report_type"] == :all
           send_data @report.all_data.to_csv
-        else 
+        else
           send_data @report.ruportdata[params[:advanced_reporting]['report_type']].to_csv
         end
       end

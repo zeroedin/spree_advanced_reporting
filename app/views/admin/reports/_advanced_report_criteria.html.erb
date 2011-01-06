@@ -1,7 +1,13 @@
 <h3>Advanced Reports</h3>
 <select id="report">
 <% @reports.each do |key, value| %>
-  <option <%= request.fullpath == "/admin/reports/#{key}" ? 'selected="selected" ' : '' %> value="<%= send("admin_reports_#{key}_url".to_sym) %>"><%= t(value[:name].downcase.gsub(" ","_")) %></option>
+
+  <% full_path = (request.fullpath == "/admin/reports/#{key}") ? 'selected="selected" ' : '' %>
+  <% value = send("#{key}_admin_reports_url".to_sym) %>
+
+  <option <%= full_path %> value="<%= value %>">
+  <%= t(value[:name].downcase.gsub(" ","_")) rescue nil%>
+  </option>
 <% end %>
 </select>
 <div id="advanced_report_search">
@@ -41,7 +47,7 @@ var created_at_less_than = "<%= (@report.unfiltered_params && @report.unfiltered
 var created_at_greater_than = "<%= (@report.unfiltered_params && @report.unfiltered_params[:created_at_greater_than]) ? @report.unfiltered_params[:created_at_greater_than] : '' %>";
 </script>
 <% end -%>
-    
+
 <% if params[:advanced_reporting] -%>
   <% if params[:advanced_reporting][:product_id] && params[:advanced_reporting][:product_id] != '' -%>
   <input type="hidden" id="product_id" value="<%= params[:advanced_reporting][:product_id] %>" />

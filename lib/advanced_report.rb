@@ -1,5 +1,5 @@
 require 'searchlogic'
- 
+
 class AdvancedReport
   attr_accessor :orders, :product_text, :date_text, :taxon_text, :ruportdata, :data, :params, :taxon, :product, :product_in_taxon, :unfiltered_params
 
@@ -15,18 +15,18 @@ class AdvancedReport
     self.params = params
     self.data = {}
     self.ruportdata = {}
-    self.unfiltered_params = params[:search].clone
+    self.unfiltered_params = params[:search].blank? ? {} : params[:search].clone
 
     params[:search] ||= {}
     if params[:search][:created_at_greater_than].blank?
-      if Order.count > 0
+      if (Order.count > 0) && Order.minimum(:completed_at)
         params[:search][:created_at_greater_than] = Order.minimum(:completed_at).beginning_of_day
       end
     else
       params[:search][:created_at_greater_than] = Time.zone.parse(params[:search][:created_at_greater_than]).beginning_of_day rescue ""
     end
     if params[:search][:created_at_less_than].blank?
-      if Order.count > 0
+      if (Order.count > 0) && Order.maximum(:completed_at)
         params[:search][:created_at_less_than] = Order.maximum(:completed_at).end_of_day
       end
     else
@@ -39,7 +39,7 @@ class AdvancedReport
     end
     search = Order.searchlogic(params[:search])
     search.state_does_not_equal('canceled')
-    self.orders = search.do_search 
+    self.orders = search.do_search
 
     self.product_in_taxon = true
     if params[:advanced_reporting]
@@ -48,7 +48,7 @@ class AdvancedReport
       end
       if params[:advanced_reporting][:product_id] && params[:advanced_reporting][:product_id] != ''
         self.product = Product.find(params[:advanced_reporting][:product_id])
-      end  
+      end
     end
     if self.taxon && self.product && !self.product.taxons.include?(self.taxon)
       self.product_in_taxon = false
