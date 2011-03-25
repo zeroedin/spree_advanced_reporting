@@ -35,7 +35,7 @@ class AdvancedReport
 
     params[:search][:completed_at_not_null] ||= "1"
     if params[:search].delete(:completed_at_not_null) == "1"
-      params[:search][:completed_at_not_null] = true
+      params[:search][:completed_at_not_null] = "1"
     end
     search = Order.searchlogic(params[:search])
     search.state_does_not_equal('canceled')
