@@ -1,3 +1,8 @@
+# lastest note:
+this is now _only_ 0.50 compatible ( retrace one/two commits for 0.3/4)
+
+rd_search was changed to metasearch. But then the csv works now
+
 # Note
 This extension seems in flux, having many forks, but no official rails3 update.
 

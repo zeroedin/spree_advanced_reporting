@@ -1,4 +1,3 @@
-require 'searchlogic'
 
 class AdvancedReport
   attr_accessor :orders, :product_text, :date_text, :taxon_text, :ruportdata, :data, :params, :taxon, :product, :product_in_taxon, :unfiltered_params
@@ -33,13 +32,10 @@ class AdvancedReport
       params[:search][:created_at_less_than] = Time.zone.parse(params[:search][:created_at_less_than]).end_of_day rescue ""
     end
 
-    params[:search][:completed_at_not_null] ||= "1"
-    if params[:search].delete(:completed_at_not_null) == "1"
-      params[:search][:completed_at_not_null] = "1"
-    end
-    search = Order.searchlogic(params[:search])
-    search.state_does_not_equal('canceled')
-    self.orders = search.do_search
+    params[:search][:completed_at_is_not_null] = true
+
+    search = Order.metasearch(params[:search])
+    self.orders = search.state_does_not_equal('canceled')
 
     self.product_in_taxon = true
     if params[:advanced_reporting]
