@@ -18,5 +18,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency('spree_core', '>= 0.30.1')
   s.add_dependency('ruport')
-  s.add_dependency('ruport-util') #, :lib => 'ruport/util')
+  # using turboladen's fork due to bundler blunders on master
+  s.add_dependency('turboladen-ruport-util') #, :lib => 'ruport/util')
 end
