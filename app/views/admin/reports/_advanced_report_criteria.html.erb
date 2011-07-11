@@ -6,7 +6,8 @@
   <% value = send("#{key}_admin_reports_url".to_sym) %>
 
   <option <%= full_path %> value="<%= value %>">
-  <%= t(value[:name].downcase.gsub(" ","_")) rescue nil%>
+    <% value_name = value.is_a?(Hash) ? value[:name].downcase.gsub(" ","_") : value.split('/').last.to_s.downcase.gsub(" ","_") rescue nil %>
+    <%= t(value_name) rescue nil %>
   </option>
 <% end %>
 </select>
