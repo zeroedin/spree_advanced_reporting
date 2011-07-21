@@ -27,6 +27,13 @@ $(function() {
 	});
 	update_report_dropdowns($('select#report').val());
 	$('select#report').change(function() { update_report_dropdowns($(this).val()); });
+
+	if(created_at_greater_than != '') {
+		$('input#search_created_at_greater_than').val(created_at_greater_than);
+	}
+	if(created_at_less_than != '') {
+		$('input#search_created_at_less_than').val(created_at_less_than);
+	}
 })
 	
 var update_report_dropdowns = function(value) {	

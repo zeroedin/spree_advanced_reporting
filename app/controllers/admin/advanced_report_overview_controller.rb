@@ -1,6 +1,6 @@
 class Admin::AdvancedReportOverviewController < Admin::BaseController
   def index
-    @reports = Admin::ReportsController::ADVANCED_REPORTS
+    @reports = Admin::ReportsControllerDecorator::ADVANCED_REPORTS
     @products = Product.all
     @taxons = Taxon.all
     if defined?(MultiDomainExtension)

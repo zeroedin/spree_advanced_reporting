@@ -1,11 +1,17 @@
 <h3>Advanced Reports</h3>
 <select id="report">
 <% @reports.each do |key, value| %>
-  <option <%= request.request_uri == "/admin/reports/#{key}" ? 'selected="selected" ' : '' %> value="<%= send("#{key}_admin_reports_url".to_sym) %>"><%= t(value[:name].downcase.gsub(" ","_")) %></option>
+
+  <% full_path = (request.fullpath == "/admin/reports/#{key}") ? 'selected="selected" ' : '' %>
+  <% value = send("#{key}_admin_reports_url".to_sym) %>
+
+  <option <%= full_path %> value="<%= value %>">
+  <%= t(value[:name].downcase.gsub(" ","_")) rescue nil%>
+  </option>
 <% end %>
 </select>
 <div id="advanced_report_search">
-  <% form_for :search do |s| %>
+  <%= form_for :search do |s| %>
     <% if @stores -%>
       Store:<br /><%= collection_select(:search, :store_id, @stores, :id, :name, { :include_blank => 'All' } ) %><br />
     <% end -%>
@@ -20,11 +26,11 @@
     <%= t("date_range") %><br />
     <div class="yui-g date-range-filter">
       <div class="yui-u sub-field first">
-        <%= s.unobtrusive_date_text_picker :created_at_after %><br />
+        <%= s.unobtrusive_date_text_picker :created_at_greater_than %><br />
         <label class="sub"><%= t("start") %></label>
       </div>
       <div class="yui-u sub-field">
-        <%= s.unobtrusive_date_text_picker :created_at_before %><br />
+        <%= s.unobtrusive_date_text_picker :created_at_less_than %><br />
         <label><%= t("stop") %></label>
       </div>
     </div>
@@ -36,8 +42,12 @@
 <% content_for :head do -%>
 <%= javascript_include_tag 'jquery.tablesorter.min.js', 'advanced_reporting.js' %>
 <%= stylesheet_link_tag 'advanced_reporting' %>
+<script type="text/javascript">
+var created_at_less_than = "<%= (@report.unfiltered_params && @report.unfiltered_params[:created_at_less_than]) ? @report.unfiltered_params[:created_at_less_than] : '' %>";
+var created_at_greater_than = "<%= (@report.unfiltered_params && @report.unfiltered_params[:created_at_greater_than]) ? @report.unfiltered_params[:created_at_greater_than] : '' %>";
+</script>
 <% end -%>
-    
+
 <% if params[:advanced_reporting] -%>
   <% if params[:advanced_reporting][:product_id] && params[:advanced_reporting][:product_id] != '' -%>
   <input type="hidden" id="product_id" value="<%= params[:advanced_reporting][:product_id] %>" />

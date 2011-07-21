@@ -1,5 +1,6 @@
+
 class AdvancedReport
-  attr_accessor :orders, :product_text, :date_text, :taxon_text, :ruportdata, :data, :params, :taxon, :product, :product_in_taxon
+  attr_accessor :orders, :product_text, :date_text, :taxon_text, :ruportdata, :data, :params, :taxon, :product, :product_in_taxon, :unfiltered_params
 
   def name
     "Base Advanced Report"
@@ -13,11 +14,28 @@ class AdvancedReport
     self.params = params
     self.data = {}
     self.ruportdata = {}
-    search = Order.searchlogic(params[:search])
-    search.checkout_complete = true
-    search.state_does_not_equal('canceled')
+    self.unfiltered_params = params[:search].blank? ? {} : params[:search].clone
 
-    self.orders = search.find(:all)
+    params[:search] ||= {}
+    if params[:search][:created_at_greater_than].blank?
+      if (Order.count > 0) && Order.minimum(:completed_at)
+        params[:search][:created_at_greater_than] = Order.minimum(:completed_at).beginning_of_day
+      end
+    else
+      params[:search][:created_at_greater_than] = Time.zone.parse(params[:search][:created_at_greater_than]).beginning_of_day rescue ""
+    end
+    if params[:search][:created_at_less_than].blank?
+      if (Order.count > 0) && Order.maximum(:completed_at)
+        params[:search][:created_at_less_than] = Order.maximum(:completed_at).end_of_day
+      end
+    else
+      params[:search][:created_at_less_than] = Time.zone.parse(params[:search][:created_at_less_than]).end_of_day rescue ""
+    end
+
+    params[:search][:completed_at_is_not_null] = true
+
+    search = Order.metasearch(params[:search])
+    self.orders = search.state_does_not_equal('canceled')
 
     self.product_in_taxon = true
     if params[:advanced_reporting]
@@ -26,7 +44,7 @@ class AdvancedReport
       end
       if params[:advanced_reporting][:product_id] && params[:advanced_reporting][:product_id] != ''
         self.product = Product.find(params[:advanced_reporting][:product_id])
-      end  
+      end
     end
     if self.taxon && self.product && !self.product.taxons.include?(self.taxon)
       self.product_in_taxon = false
@@ -38,21 +56,22 @@ class AdvancedReport
     if self.taxon
       self.taxon_text = "Taxon: #{self.taxon.name}<br />"
     end
+
+    # Above searchlogic date settings
     self.date_text = "Date Range:"
-    if params[:search]
-      if params[:search][:created_at_after] != '' && params[:search][:created_at_before] != ''
-        self.date_text += " From #{params[:search][:created_at_after]} to #{params[:search][:created_at_before]}"
-      elsif params[:search][:created_at_after] != ''
-        self.date_text += " After #{params[:search][:created_at_after]}"
-      elsif params[:search][:created_at_before] != ''
-        self.date_text += " Before #{params[:search][:created_at_after]}"
+    if self.unfiltered_params
+      if self.unfiltered_params[:created_at_greater_than] != '' && self.unfiltered_params[:created_at_less_than] != ''
+        self.date_text += " From #{self.unfiltered_params[:created_at_greater_than]} to #{self.unfiltered_params[:created_at_less_than]}"
+      elsif self.unfiltered_params[:created_at_greater_than] != ''
+        self.date_text += " After #{self.unfiltered_params[:created_at_greater_than]}"
+      elsif self.unfiltered_params[:created_at_less_than] != ''
+        self.date_text += " Before #{self.unfiltered_params[:created_at_less_than]}"
       else
         self.date_text += " All"
       end
     else
       self.date_text += " All"
     end
-
   end
 
   def download_url(base, format, report_type = nil)
