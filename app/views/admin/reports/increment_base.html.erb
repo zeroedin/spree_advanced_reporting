@@ -12,8 +12,8 @@
 <a href="<%= @report.download_url(request.fullpath, 'pdf', "all") %>">PDF</a> | <a href="<%= @report.download_url(request.fullpath, 'csv', "all") %>">CSV</a>
 </div>
 <%= @report.description %><br />
-<%= @report.product_text %>
-<%= @report.taxon_text %>
+<%== @report.product_text %>
+<%== @report.taxon_text %>
 <%= @report.date_text %><br />
 Total: <%= @report.format_total %>
 </div>
