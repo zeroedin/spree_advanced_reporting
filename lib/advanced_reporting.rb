@@ -12,7 +12,7 @@ module AdvancedReporting
       end
 
       # Ruport::Controller::Table.formats.merge({ :flot => MyFlotFormatter })
-      #Mime::Type.register "application/pdf", :pdf
+      Mime::Type.register "application/pdf", :pdf
 
       Ruport::Formatter::HTML.class_eval do
         # Renders individual rows for the table.
