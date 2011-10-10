@@ -1,12 +1,14 @@
-module Admin::ReportsControllerDecorator #module AdvancedReporting::ReportsController
-  def self.included(target)
-    target.class_eval do
-      alias :spree_index :index
-      def index; advanced_reporting_index; end
-      before_filter :basic_report_setup, :actions => [:profit, :revenue, :units, :top_products, :top_customers, :geo_revenue, :geo_units, :count]
-    end
-  end
+Admin::ReportsController.class_eval do
+  before_filter :add_own 
+  before_filter :basic_report_setup, :actions => [:profit, :revenue, :units, :top_products, :top_customers, :geo_revenue, :geo_units, :count]
 
+  def add_own
+    return if Admin::ReportsController::AVAILABLE_REPORTS.has_key?(:geo_profit)
+    puts "ADDING"
+    Admin::ReportsController::AVAILABLE_REPORTS.merge!(ADVANCED_REPORTS)
+    puts "ADDed"
+  end
+  
   ADVANCED_REPORTS = {
       :revenue		=> { :name => "Revenue", :description => "Revenue" },
       :units		=> { :name => "Units", :description => "Units" },
@@ -18,10 +20,6 @@ module Admin::ReportsControllerDecorator #module AdvancedReporting::ReportsContr
       :geo_units	=> { :name => "Geo Units", :description => "Geo Units" },
       :geo_profit	=> { :name => "Geo Profit", :description => "Geo Profit" },
   }
-
-  def advanced_reporting_index
-    @reports = ADVANCED_REPORTS.merge(Admin::ReportsController::AVAILABLE_REPORTS)
-  end
 
   def basic_report_setup
     @reports = ADVANCED_REPORTS
