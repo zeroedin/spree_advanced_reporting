@@ -1,4 +1,3 @@
-require 'spree_core'
 require 'advanced_reporting_hooks'
 require "ruport"
 require "ruport/util"
@@ -8,12 +7,9 @@ module AdvancedReporting
     config.autoload_paths += %W(#{config.root}/lib)
 
     def self.activate
-      #Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
-      #  Rails.env.production? ? require(c) : load(c)
-      #end
-
-      Admin::ReportsController.send(:include, Admin::ReportsControllerDecorator)
-      Admin::ReportsController::AVAILABLE_REPORTS.merge(Admin::ReportsControllerDecorator::ADVANCED_REPORTS)
+      Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator.rb")) do |c|
+        Rails.env.production? ? require(c) : load(c)
+      end
 
       # Ruport::Controller::Table.formats.merge({ :flot => MyFlotFormatter })
       #Mime::Type.register "application/pdf", :pdf
