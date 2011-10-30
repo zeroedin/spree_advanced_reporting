@@ -4,9 +4,7 @@ Admin::ReportsController.class_eval do
 
   def add_own
     return if Admin::ReportsController::AVAILABLE_REPORTS.has_key?(:geo_profit)
-    puts "ADDING"
     Admin::ReportsController::AVAILABLE_REPORTS.merge!(ADVANCED_REPORTS)
-    puts "ADDed"
   end
   
   ADVANCED_REPORTS = {
