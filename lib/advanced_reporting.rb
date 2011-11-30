@@ -1,6 +1,6 @@
 require 'advanced_reporting_hooks'
 require "ruport"
-require "ruport/util"
+#require "ruport/util"
 
 module AdvancedReporting
   class Engine < Rails::Engine
