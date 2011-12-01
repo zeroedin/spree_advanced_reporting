@@ -1,4 +1,4 @@
-class AdvancedReport::GeoReport::GeoProfit < AdvancedReport::GeoReport
+class Spree::AdvancedReport::GeoReport::GeoProfit < Spree::AdvancedReport::GeoReport
   def name
     "Profit by Geography"
   end

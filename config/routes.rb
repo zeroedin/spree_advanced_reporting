@@ -1,4 +1,4 @@
-Rails.application.routes.draw do
+ Spree::Core::Engine.routes.prepend do
   #namespace :admin do
   #  resources :reports, :only => [:index, :show] do
   #    collection do
@@ -34,5 +34,5 @@ Rails.application.routes.draw do
   match '/admin/reports/geo_profit' => 'admin/reports#geo_profit', :via => [:get, :post],
                                                                     :as => 'geo_profit_admin_reports'
 
-#  match "/admin" => "admin/advanced_report_overview#index", :as => :admin
+  match "/admin" => "admin/advanced_report_overview#index", :as => :admin
 end

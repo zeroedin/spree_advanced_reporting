@@ -1,4 +1,4 @@
-class AdvancedReport::TopReport::TopProducts < AdvancedReport::TopReport
+class Spree::AdvancedReport::TopReport::TopProducts < Spree::AdvancedReport::TopReport
   def name
     "Top Selling Products by Revenue"
   end

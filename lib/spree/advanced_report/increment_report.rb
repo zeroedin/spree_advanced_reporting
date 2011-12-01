@@ -1,4 +1,4 @@
-class AdvancedReport::IncrementReport < AdvancedReport
+class Spree::AdvancedReport::IncrementReport < Spree::AdvancedReport
   INCREMENTS = [:daily, :weekly, :monthly, :quarterly, :yearly]
   attr_accessor :increments, :dates, :total, :all_data
 

@@ -1,4 +1,4 @@
-class AdvancedReport::GeoReport::GeoUnits < AdvancedReport::GeoReport
+class Spree::AdvancedReport::GeoReport::GeoUnits < Spree::AdvancedReport::GeoReport
   def name
     "Units Sold by Geography"
   end

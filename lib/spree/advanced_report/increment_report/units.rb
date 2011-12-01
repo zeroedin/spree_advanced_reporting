@@ -1,14 +1,14 @@
-class AdvancedReport::IncrementReport::Count < AdvancedReport::IncrementReport
+class Spree::AdvancedReport::IncrementReport::Units < Spree::AdvancedReport::IncrementReport
   def name
-    "Order Count"
+    "Units Sold"
   end
 
   def column
-    "Count"
+    "Units"
   end
 
   def description
-    "Total number of completed orders"
+    "Total units sold in orders, a sum of the item quantities per order or per item"
   end
 
   def initialize(params)
@@ -23,9 +23,9 @@ class AdvancedReport::IncrementReport::Count < AdvancedReport::IncrementReport
           :display => get_display(type, order.completed_at),
         }
       end
-      order_count = order_count(order)
-      INCREMENTS.each { |type| data[type][date[type]][:value] += order_count }
-      self.total += order_count
+      units = units(order)
+      INCREMENTS.each { |type| data[type][date[type]][:value] += units }
+      self.total += units
     end
 
     generate_ruport_data

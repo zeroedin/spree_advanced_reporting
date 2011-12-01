@@ -1,4 +1,4 @@
-class AdvancedReport::IncrementReport::Revenue < AdvancedReport::IncrementReport
+class Spree::AdvancedReport::IncrementReport::Revenue < Spree::AdvancedReport::IncrementReport
   def name
     "Revenue"
   end

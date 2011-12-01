@@ -25,7 +25,7 @@
     <a href="<%= @report.download_url(request.fullpath, 'csv', "country") %>">CSV</a>
   </li>
 </ul>
-<%= render :partial => 'admin/reports/advanced_report_criteria', :locals => {} %>
+<%= render :partial => 'spree/admin/reports/advanced_report_criteria', :locals => {} %>
 <% end -%>
 
 <% content_for :head do -%>

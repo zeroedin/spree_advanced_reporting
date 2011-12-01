@@ -1,4 +1,4 @@
-class AdvancedReport::TopReport::TopCustomers < AdvancedReport::TopReport
+class Spree::AdvancedReport::TopReport::TopCustomers < Spree::AdvancedReport::TopReport
   def name
     "Top Customers"
   end
