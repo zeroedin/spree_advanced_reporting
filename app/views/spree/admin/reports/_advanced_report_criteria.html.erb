@@ -1,4 +1,4 @@
-<h3>Advanced Reports</h3>
+<h3><%=t "adv_report.advanced_reports"%></h3>
 <select id="report">
 <% @reports.each do |key, value| %>
 
@@ -7,21 +7,23 @@
 
   <option <%= full_path %> value="<%= value %>">
     <% value_name = value.is_a?(Hash) ? value[:name].downcase.gsub(" ","_") : value.split('/').last.to_s.downcase.gsub(" ","_") rescue nil %>
-    <%= t(value_name) rescue nil %>
+    <%= t("adv_report."+value_name) rescue nil %>
   </option>
 <% end %>
 </select>
 <div id="advanced_report_search">
   <%= form_for :search do |s| %>
     <% if @stores -%>
-      Store:<br /><%= collection_select(:search, :store_id, @stores, :id, :name, { :include_blank => 'All' } ) %><br />
+        Store:<br /><%= collection_select(:search, :store_id, @stores, :id, :name, { :include_blank => 'All' } ) %><br />
+        <br>
+
     <% end -%>
 
     <div id="taxon_products">
     <% if @taxons -%>
-      Taxon: <br /><%= collection_select(:advanced_reporting, :taxon_id, @taxons, :id, :name, { :include_blank => 'All' } ) %><br />
+        <%=t "taxons"%>: <br /><%= collection_select(:advanced_reporting, :taxon_id, @taxons, :id, :name, { :include_blank => 'All' } ) %><br />
     <% end -%>
-      Product:<br /><%= collection_select(:advanced_reporting, :product_id, @products, :id, :name, { :include_blank => 'All' } ) %><br />
+    <%=t :products%>:<br /><%= collection_select(:advanced_reporting, :product_id, @products, :id, :name, { :include_blank => 'All' } ) %><br />
     </div>
 
     <%= t("date_range") %><br />
