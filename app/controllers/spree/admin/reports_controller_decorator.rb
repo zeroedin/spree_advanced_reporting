@@ -6,19 +6,13 @@ Spree::Admin::ReportsController.class_eval do
     return if Spree::Admin::ReportsController::AVAILABLE_REPORTS.has_key?(:geo_profit)
     Spree::Admin::ReportsController::AVAILABLE_REPORTS.merge!(ADVANCED_REPORTS)
   end
-  
-  ADVANCED_REPORTS = {
-      :revenue		=> { :name => "Revenue", :description => "Revenue" },
-      :units		=> { :name => "Units", :description => "Units" },
-      :profit		=> { :name => "Profit", :description => "Profit" },
-      :count		=> { :name => "Order Count", :description => "Order Count" },
-      :top_products	=> { :name => "Top Products", :description => "Top Products" },
-      :top_customers	=> { :name => "Top Customers", :description => "Top Customers" },
-      :geo_revenue	=> { :name => "Geo Revenue", :description => "Geo Revenue" },
-      :geo_units	=> { :name => "Geo Units", :description => "Geo Units" },
-      :geo_profit	=> { :name => "Geo Profit", :description => "Geo Profit" },
-  }
+  I18n.locale = Spree::Config[:default_locale]
+  ADVANCED_REPORTS={}
+  [ :revenue, :units, :profit, :count, :top_products, :top_customers, :geo_revenue, :geo_units, :geo_profit].each do |x|
+    ADVANCED_REPORTS[x]= {name: I18n.t("adv_report."+x.to_s), :description => I18n.t("adv_report."+x.to_s)}
+  end
 
+   
   def basic_report_setup
     @reports = ADVANCED_REPORTS
     @products = Spree::Product.all

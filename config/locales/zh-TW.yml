@@ -7,7 +7,8 @@ zh-TW:
     quarterly: 季
     yearly: 年
     revenue: "收入"
-    units: "出貨商品數量"
+    units: "商品售出數量"
+    units_sold: "商品售出數量"
     profit: "利潤"
     count: "訂單數"
     order_count: "訂單數"
