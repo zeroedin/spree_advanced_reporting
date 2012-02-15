@@ -7,6 +7,8 @@ Spree::Admin::ReportsController.class_eval do
     Spree::Admin::ReportsController::AVAILABLE_REPORTS.merge!(ADVANCED_REPORTS)
   end
   I18n.locale = Spree::Config[:default_locale]
+  I18n.reload!
+
   ADVANCED_REPORTS={}
   [ :revenue, :units, :profit, :count, :top_products, :top_customers, :geo_revenue, :geo_units, :geo_profit].each do |x|
     ADVANCED_REPORTS[x]= {name: I18n.t("adv_report."+x.to_s), :description => I18n.t("adv_report."+x.to_s)}
