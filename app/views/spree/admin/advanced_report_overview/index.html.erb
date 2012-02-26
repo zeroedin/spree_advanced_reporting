@@ -55,7 +55,6 @@
         <% @report.increments.each do |inc| %>
             <li <%= inc == :daily ? 'class=selected' : '' %> id="<%= inc.to_s %>">
                 <label><%= t("adv_report."+inc.to_s) %></label><br />
-                <a href="<%= @report.download_url('/admin/reports/revenue', 'pdf', inc.to_s) %>">PDF</a> |
                 <a href="<%= @report.download_url('/admin/reports/revenue', 'csv', inc.to_s) %>">CSV</a>
             </li>
         <% end -%>

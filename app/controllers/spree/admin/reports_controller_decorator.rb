@@ -9,7 +9,7 @@ Spree::Admin::ReportsController.class_eval do
   I18n.locale = Spree::Config[:default_locale]
   I18n.reload!
 
-  ADVANCED_REPORTS={}
+  ADVANCED_REPORTS ||= {}
   [ :revenue, :units, :profit, :count, :top_products, :top_customers, :geo_revenue, :geo_units, :geo_profit].each do |x|
     ADVANCED_REPORTS[x]= {name: I18n.t("adv_report."+x.to_s), :description => I18n.t("adv_report."+x.to_s)}
   end
@@ -30,9 +30,9 @@ Spree::Admin::ReportsController.class_eval do
     params[:advanced_reporting]["report_type"] ||= :state
     respond_to do |format|
       format.html { render :template => "spree/admin/reports/geo_base" }
-      format.pdf do
-        send_data @report.ruportdata[params[:advanced_reporting]['report_type']].to_pdf
-      end
+      # format.pdf do
+      #   send_data @report.ruportdata[params[:advanced_reporting]['report_type']].to_pdf
+      # end
       format.csv do
         send_data @report.ruportdata[params[:advanced_reporting]['report_type']].to_csv
       end
@@ -42,9 +42,9 @@ Spree::Admin::ReportsController.class_eval do
   def base_report_top_render(filename)
     respond_to do |format|
       format.html { render :template => "spree/admin/reports/top_base" }
-      format.pdf do
-        send_data @report.ruportdata.to_pdf
-      end
+      # format.pdf do
+      #   send_data @report.ruportdata.to_pdf
+      # end
       format.csv do
         send_data @report.ruportdata.to_csv
       end
@@ -57,13 +57,13 @@ Spree::Admin::ReportsController.class_eval do
     params[:advanced_reporting]["report_type"] ||= :daily
     respond_to do |format|
       format.html { render :template => "spree/admin/reports/increment_base" }
-      format.pdf do
-        if params[:advanced_reporting]["report_type"] == :all
-          send_data @report.all_data.to_pdf
-        else
-          send_data @report.ruportdata[params[:advanced_reporting]["report_type"]].to_pdf
-        end
-      end
+      # format.pdf do
+      #   if params[:advanced_reporting]["report_type"] == :all
+      #     send_data @report.all_data.to_pdf
+      #   else
+      #     send_data @report.ruportdata[params[:advanced_reporting]["report_type"]].to_pdf
+      #   end
+      # end
       format.csv do
         if params[:advanced_reporting]["report_type"] == :all
           send_data @report.all_data.to_csv

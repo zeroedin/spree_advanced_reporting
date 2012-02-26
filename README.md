@@ -1,3 +1,15 @@
+# NOTES:
+
+This is working with Spree 1.0.0; don't know about prior versions.
+
+Forked from what appeared to the be the most up to date for, and made the following general changes:
+
+1. Removed PDF generation, which isn't working under Ruby 1.9.x
+2. Removed the route that overrides the main admin overview page
+3. Fixed a warning about ```ADVANCED_REPORTS``` being redefined
+4. Fixed the en.yml translation lookups
+
+
 # lastest note:
 this is now _only_ 0.70 compatible ( retrace one/two commits for 0.5/6)
 

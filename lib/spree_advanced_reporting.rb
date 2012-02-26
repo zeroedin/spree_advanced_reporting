@@ -17,8 +17,10 @@ module Spree
         end
 
         # Ruport::Controller::Table.formats.merge({ :flot => MyFlotFormatter })
-        Mime::Type.register "application/pdf", :pdf
-
+        # if Mime::Type.lookup_by_extension(:pdf) != 'application/pdf'
+        #   Mime::Type.register('application/pdf', :pdf)
+        # end
+        
         Ruport::Formatter::HTML.class_eval do
           # Renders individual rows for the table.
           def build_row(data = self.data)

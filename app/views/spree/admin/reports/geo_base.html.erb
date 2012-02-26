@@ -16,12 +16,10 @@
     <ul id="show_data">
         <li class="selected" id="state">
             <label>States</label><br />
-            <a href="<%= @report.download_url(request.fullpath, 'pdf', "state") %>">PDF</a> |
             <a href="<%= @report.download_url(request.fullpath, 'csv', "state") %>">CSV</a>
         </li>
         <li id="country">
             <label>Countries</label><br />
-            <a href="<%= @report.download_url(request.fullpath, 'pdf', "country") %>">PDF</a> |
             <a href="<%= @report.download_url(request.fullpath, 'csv', "country") %>">CSV</a>
         </li>
     </ul>

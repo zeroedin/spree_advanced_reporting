@@ -9,7 +9,7 @@
     <div class="report_details">
         <h1><%=t "adv_report." + @report.name.downcase.gsub(/ /,"_") %></h1>
         <div class="links">
-            <a href="<%= @report.download_url(request.fullpath, 'pdf', "all") %>">PDF</a> | <a href="<%= @report.download_url(request.fullpath, 'csv', "all") %>">CSV</a>
+            <a href="<%= @report.download_url(request.fullpath, 'csv', "all") %>">CSV</a>
         </div>
         <%= @report.description %><br />
         <%== @report.product_text %>
@@ -22,7 +22,6 @@
         <% @report.increments.each do |inc| %>
             <li <%= 'class=selected' if inc == :daily %> id="<%= inc.to_s %>">
                 <label><%= inc.to_s.capitalize %></label><br />
-                <a href="<%= @report.download_url(request.fullpath, 'pdf', inc.to_s) %>">PDF</a> | 
                 <a href="<%= @report.download_url(request.fullpath, 'csv', inc.to_s) %>">CSV</a>
             </li>
         <% end -%>
