@@ -2,6 +2,8 @@
 
 This is working with Spree 1.0.0; don't know about prior versions.
 
+For Spree 1.1.0.rc1 (and possibly later), use the spree110rc1 branch.
+
 Forked from what appeared to the be the most up to date for, and made the following general changes:
 
 1. Removed PDF generation, which isn't working under Ruby 1.9.x
