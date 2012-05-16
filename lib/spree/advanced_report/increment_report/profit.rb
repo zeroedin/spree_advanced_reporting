@@ -34,6 +34,6 @@ class Spree::AdvancedReport::IncrementReport::Profit < Spree::AdvancedReport::In
   end
 
   def format_total
-    '$' + ((self.total*100).round.to_f / 100).to_s
+    ((self.total*100).round.to_f / 100).to_s + " грн"
   end
 end
