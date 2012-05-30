@@ -28,9 +28,9 @@ Advanced reporting for Spree.
 
 ## Dependencies:
 * Ruport and Ruport-util
-- You can find Ruport for Ruby 1.9 here: http://github.com/johnu/ruport under the ruby 1.9 compat branch
-- gem 'ruport', :git => 'git://github.com/johnu/ruport.git', :branch => 'ruby19-compat'
-- gem 'ruport-util'
-- gem 'spree_advanced_reporting', :git => 'git://github.com/tg0/spree_advanced_reporting.git', :branch => 'master'
+ - You can find Ruport for Ruby 1.9 here: http://github.com/johnu/ruport under the ruby 1.9 compat branch
+ - gem 'ruport', :git => 'git://github.com/johnu/ruport.git', :branch => 'ruby19-compat'
+ - gem 'ruport-util'
+ - gem 'spree_advanced_reporting', :git => 'git://github.com/tg0/spree_advanced_reporting.git', :branch => 'master'
 
 * Google Visualization
